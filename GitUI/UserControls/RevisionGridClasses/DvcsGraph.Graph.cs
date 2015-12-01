@@ -470,20 +470,24 @@ namespace GitUI.RevisionGridClasses
 
                 public LaneInfo Clone()
                 {
-                    var other = new LaneInfo { connectLane = connectLane, junctions = new List<Junction>(junctions) };
+                    var other = new LaneInfo { connectLane = connectLane, junctions = junctions };
                     return other;
                 }
 
                 public void UnionWith(LaneInfo aOther)
                 {
+                    List<Junction> newJunctions = new List<Junction>(junctions);
+
                     foreach (Junction other in aOther.junctions)
                     {
-                        if (!junctions.Contains(other))
+                        if (!newJunctions.Contains(other))
                         {
-                            junctions.Add(other);
+                            newJunctions.Add(other);
                         }
                     }
-                    junctions.TrimExcess();
+                    newJunctions.TrimExcess();
+
+                    junctions = newJunctions;
                 }
 
                 public static implicit operator int(LaneInfo a)
