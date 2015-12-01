@@ -533,41 +533,32 @@ namespace GitUI.RevisionGridClasses
                     var newLaneRow = new SavedLaneRow(this);
 
                     var newEdges = new Edges();
-                    for (int i = 0; i < edges.CountNext(); i++)
+                    var countNext = edges.CountNext();
+                    for (int i = 0; i < countNext; i++)
                     {
-                        int edgeCount = edges.CountNext(i);
-                        if (edgeCount > 0)
+                        bool firstFound = false;
+                        Graph.LaneInfo info = new Graph.LaneInfo();
+
+                        foreach (Edge e in edges.EdgeList)
                         {
-                            bool firstFound = true;
-                            Graph.LaneInfo info = new Graph.LaneInfo();
-
-                            int found = 0;
-                            foreach (Edge e in edges.EdgeList)
+                            if (e.End == i)
                             {
-                                if (e.End == i)
+                                if (firstFound)
                                 {
-                                    if (found >= edgeCount)
-                                    {
-                                        break;
-                                    }
-
-                                    if (firstFound)
-                                    {
-                                        info = e.Data.Clone();
-                                        firstFound = false;
-                                    }
-                                    else
-                                    {
-                                        info.UnionWith(e.Data);
-                                    }
-
-                                    found++;
+                                    info.UnionWith(e.Data);
+                                }
+                                else
+                                {
+                                    info = e.Data.Clone();
+                                    firstFound = true;
                                 }
                             }
-
-                            newEdges.Add(i, info);
                         }
 
+                        if (firstFound)
+                        {
+                            newEdges.Add(i, info);
+                        }
                     }
 
                     edges = newEdges;
