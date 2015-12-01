@@ -532,12 +532,12 @@ namespace GitUI.RevisionGridClasses
                 {
                     var newLaneRow = new SavedLaneRow(this);
 
-                    var newEdges = new Edges();
-
                     var countNext = edges.CountNext();
 
                     Graph.LaneInfo[] infos = new Graph.LaneInfo[countNext];
-                    
+
+                    int newEdgesCount = 0;
+
                     foreach (Edge e in edges.EdgeList)
                     {
                         var end = e.End;
@@ -545,12 +545,17 @@ namespace GitUI.RevisionGridClasses
                         if (end < countNext)
                         {
                             if (infos[end].Junctions == null)
+                            {
                                 infos[end] = e.Data.Clone();
+                                newEdgesCount++;
+                            }
                             else
                                 infos[end].UnionWith(e.Data);
                         }
                     }
 
+                    var newEdges = new Edges();
+                    newEdges.EdgeList.Capacity = newEdgesCount;
                     for (int index = 0; index < infos.Length; index++)
                     {
                         if (infos[index].Junctions != null)
