@@ -140,7 +140,9 @@ namespace GitUI.CommandsDialogs
                 var sb = new StringBuilder();
                 sb.Append("Host ").Append(sServerMask);
                 sb.AppendLine();
-                sb.Append("\tIdentityFile ").Append(Path.GetFullPath(pathPrivateKey));
+                sb.Append("\tIdentityFile ").Append('"').Append(Path.GetFullPath(pathPrivateKey).Trim()).Append('"');
+                sb.AppendLine();
+                sb.AppendLine();
 
                 // Choose the insertion position in the config file
                 // Things to keep in mind:
