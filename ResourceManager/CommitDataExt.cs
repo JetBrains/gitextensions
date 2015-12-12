@@ -79,27 +79,34 @@ namespace ResourceManager
                     COMMITHEADER_STRING_LENGTH) +
                 WebUtility.HtmlEncode(commitData.Guid));
 
+            const int maxItemsToShow = 50;
+
             if (commitData.ChildrenGuids != null && commitData.ChildrenGuids.Count != 0)
             {
                 header.AppendLine();
                 string commitsString;
+
                 if (showRevisionsAsLinks)
-                    commitsString = commitData.ChildrenGuids.Select(LinkFactory.CreateCommitLink).Join(" ");
+                    commitsString = commitData.ChildrenGuids.Take(maxItemsToShow).Select(LinkFactory.CreateCommitLink).Join(" ");
                 else
-                    commitsString = commitData.ChildrenGuids.Select(guid => guid.Substring(0, 10)).Join(" ");
+                    commitsString = commitData.ChildrenGuids.Take(maxItemsToShow).Select(guid => guid.Substring(0, 10)).Join(" ");
+                if (commitData.ChildrenGuids.Count > maxItemsToShow)
+                    commitsString += " ...";
                 header.Append(FillToLength(WebUtility.HtmlEncode(Strings.GetChildrenText()) + ":",
                     COMMITHEADER_STRING_LENGTH) + commitsString);
             }
 
-            var parentGuids = commitData.ParentGuids.Where(s => !String.IsNullOrEmpty(s));
+            var parentGuids = commitData.ParentGuids.Where(s => !String.IsNullOrEmpty(s)).ToList();
             if (parentGuids.Any())
             {
                 header.AppendLine();
                 string commitsString;
                 if (showRevisionsAsLinks)
-                    commitsString = parentGuids.Select(LinkFactory.CreateCommitLink).Join(" ");
+                    commitsString = parentGuids.Take(maxItemsToShow).Select(LinkFactory.CreateCommitLink).Join(" ");
                 else
-                    commitsString = parentGuids.Select(guid => guid.Substring(0, 10)).Join(" ");
+                    commitsString = parentGuids.Take(maxItemsToShow).Select(guid => guid.Substring(0, 10)).Join(" ");
+                if (parentGuids.Count > maxItemsToShow)
+                    commitsString += " ...";
                 header.Append(FillToLength(WebUtility.HtmlEncode(Strings.GetParentsText()) + ":",
                     COMMITHEADER_STRING_LENGTH) + commitsString);
             }

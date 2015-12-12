@@ -532,21 +532,36 @@ namespace GitUI.RevisionGridClasses
                 {
                     var newLaneRow = new SavedLaneRow(this);
 
-                    var newEdges = new Edges();
-                    for (int i = 0; i < edges.CountNext(); i++)
+                    var countNext = edges.CountNext();
+
+                    Graph.LaneInfo[] infos = new Graph.LaneInfo[countNext];
+
+                    int newEdgesCount = 0;
+
+                    foreach (Edge e in edges.EdgeList)
                     {
-                        int edgeCount = edges.CountNext(i);
-                        if (edgeCount > 0)
+                        var end = e.End;
+
+                        if (end < countNext)
                         {
-                            Graph.LaneInfo info = edges.Next(i, 0).Clone();
-                            for (int j = 1; j < edgeCount; j++)
+                            if (infos[end].Junctions == null)
                             {
-                                Graph.LaneInfo edgeInfo = edges.Next(i, j);
-                                info.UnionWith(edgeInfo);
+                                infos[end] = e.Data.Clone();
+                                newEdgesCount++;
                             }
-                            newEdges.Add(i, info);
+                            else
+                                infos[end].UnionWith(e.Data);
                         }
                     }
+
+                    var newEdges = new Edges();
+                    newEdges.EdgeList.Capacity = newEdgesCount;
+                    for (int index = 0; index < infos.Length; index++)
+                    {
+                        if (infos[index].Junctions != null)
+                            newEdges.Add(index, infos[index]);
+                    }
+
                     edges = newEdges;
 
                     return newLaneRow;

@@ -306,19 +306,24 @@ namespace GitUI.RevisionGridClasses
 
             public void Prune()
             {
-            // Remove all nodes that don't have a value associated with them.
-            start_over:
-                foreach (Node n in Nodes.Values)
+                // Remove all nodes that don't have a value associated with them.
+
+                var nodesToRemove = new List<Node>();
+                foreach (Node n in Nodes.Values.ToArray())
                 {
                     if (n.Data == null)
                     {
-                        Nodes.Remove(n.Id);
-                        // This guy should have been at the end of some junctions
-                        foreach (Junction j in n.Descendants)
-                        {
-                            j.Remove(n);
-                        }
-                        goto start_over;
+                        nodesToRemove.Add(n);
+                    }
+                }
+
+                foreach (var n in nodesToRemove)
+                {
+                    Nodes.Remove(n.Id);
+                    // This guy should have been at the end of some junctions
+                    foreach (Junction j in n.Descendants)
+                    {
+                        j.Remove(n);
                     }
                 }
             }
@@ -465,20 +470,24 @@ namespace GitUI.RevisionGridClasses
 
                 public LaneInfo Clone()
                 {
-                    var other = new LaneInfo { connectLane = connectLane, junctions = new List<Junction>(junctions) };
+                    var other = new LaneInfo { connectLane = connectLane, junctions = junctions };
                     return other;
                 }
 
                 public void UnionWith(LaneInfo aOther)
                 {
+                    List<Junction> newJunctions = new List<Junction>(junctions);
+
                     foreach (Junction other in aOther.junctions)
                     {
-                        if (!junctions.Contains(other))
+                        if (!newJunctions.Contains(other))
                         {
-                            junctions.Add(other);
+                            newJunctions.Add(other);
                         }
                     }
-                    junctions.TrimExcess();
+                    newJunctions.TrimExcess();
+
+                    junctions = newJunctions;
                 }
 
                 public static implicit operator int(LaneInfo a)

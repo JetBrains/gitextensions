@@ -7,6 +7,9 @@ using System.Windows.Forms;
 using GitCommands;
 using GitCommands.Config;
 using GitCommands.Repository;
+
+using JetBrains.Annotations;
+
 using ResourceManager;
 
 namespace GitUI.CommandsDialogs
@@ -30,9 +33,13 @@ namespace GitUI.CommandsDialogs
         private readonly TranslationString _questionOpenRepoCaption =
             new TranslationString("Open");
 
+        private readonly TranslationString _branchDefaultRemoteHead = new TranslationString("(default: remote HEAD)" /* Has a colon, so won't alias with any valid branch name */);
+        private readonly TranslationString _branchNone = new TranslationString("(none: don't checkout after clone)" /* Has a colon, so won't alias with any valid branch name */);
+
         private bool openedFromProtocolHandler;
         private readonly string url;
         private EventHandler<GitModuleEventArgs> GitModuleChanged;
+        private readonly IList<string> _defaultBranchItems;
 
         // for translation only
         private FormClone()
@@ -48,6 +55,8 @@ namespace GitUI.CommandsDialogs
             Translate();
             this.openedFromProtocolHandler = openedFromProtocolHandler;
             this.url = url;
+            _defaultBranchItems = new[] {_branchDefaultRemoteHead.Text, _branchNone.Text};
+            _NO_TRANSLATE_Branches.DataSource = _defaultBranchItems;
         }
 
         protected override void OnRuntimeLoad(EventArgs e)
@@ -137,8 +146,29 @@ namespace GitUI.CommandsDialogs
                 if (!Directory.Exists(dirTo))
                     Directory.CreateDirectory(dirTo);
 
+                // Shallow clone params
+                int? depth = null;
+                bool? isSingleBranch = null;
+                if(!cbDownloadFullHistory.Checked)
+                {
+                    depth = 1;
+                    // Single branch considerations:
+                    // If neither depth nor single-branch family params are specified, then it's like no-single-branch by default.
+                    // If depth is specified, then single-branch is assumed.
+                    // But with single-branch it's really nontrivial to switch to another branch in the GUI, and it's very hard in cmdline (obvious choices to fetch another branch lead to local repo corruption).
+                    // So let's reset it to no-single-branch to (a) have the same branches behavior as with full clone, and (b) make it easier for users when switching branches.
+                    isSingleBranch = false;
+                }
+
+                // Branch name param
+                string branch = _NO_TRANSLATE_Branches.Text;
+                if(branch == _branchDefaultRemoteHead.Text)
+                    branch = "";
+                else if(branch == _branchNone.Text)
+                    branch = null;
+                
                 var cloneCmd = GitCommandHelpers.CloneCmd(_NO_TRANSLATE_From.Text, dirTo,
-                            CentralRepository.Checked, cbIntializeAllSubmodules.Checked, Branches.Text, null);
+                            CentralRepository.Checked, cbIntializeAllSubmodules.Checked, branch, depth, isSingleBranch);
                 using (var fromProcess = new FormRemoteProcess(Module, AppSettings.GitCommand, cloneCmd))
                 {
                     fromProcess.SetUrlTryingToConnect(_NO_TRANSLATE_From.Text);
@@ -218,18 +248,16 @@ namespace GitUI.CommandsDialogs
             }
         }
 
-
         private void LoadSshKeyClick(object sender, EventArgs e)
         {
-            BrowseForPrivateKey.BrowseAndLoad(this);
+            if(GitCommandHelpers.Plink())
+                BrowseForPrivateKey.BrowseAndLoad(this);
+            else
+            {
+                using(var dialog = new FormLoadOpenSshKey(UICommands, _NO_TRANSLATE_From.Text))
+                    dialog.ShowDialog();
+            }
         }
-
-        private void FormCloneLoad(object sender, EventArgs e)
-        {
-            if (!GitCommandHelpers.Plink())
-                LoadSSHKey.Visible = false;
-        }
-
 
         private void FromSelectedIndexChanged(object sender, EventArgs e)
         {
@@ -249,7 +277,8 @@ namespace GitUI.CommandsDialogs
             if (path.Contains("\\") || path.Contains("/"))
                 _NO_TRANSLATE_NewDirectory.Text = path.Substring(path.LastIndexOfAny(new[] { '\\', '/' }) + 1);
 
-            Branches.DataSource = null;
+            _NO_TRANSLATE_Branches.DataSource = _defaultBranchItems;
+            _NO_TRANSLATE_Branches.Select(0,0);   // Kill full selection on the default branch text
 
             ToTextUpdate(sender, e);
         }
@@ -332,18 +361,18 @@ namespace GitUI.CommandsDialogs
             }
             else
             {
-                string text = Branches.Text;
-                Branches.DataSource = branchList.Result;
-                if (branchList.Result.Any(a => a.LocalName == text))
+                string text = _NO_TRANSLATE_Branches.Text;
+                List<string> branchlist = _defaultBranchItems.Concat(branchList.Result.Select(o => o.LocalName)).ToList();
+                _NO_TRANSLATE_Branches.DataSource = branchlist;
+                if (branchlist.Any(a => a == text))
                 {
-                    Branches.Text = text;
+                    _NO_TRANSLATE_Branches.Text = text;
                 }
             }
         }
 
         private void LoadBranches()
         {
-            Branches.DisplayMember = "LocalName";
             string from = _NO_TRANSLATE_From.Text;
             Cursor = Cursors.AppStarting;
             _branchListLoader.Load(() => Module.GetRemoteRefs(from, false, true), UpdateBranches);
