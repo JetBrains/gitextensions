@@ -248,16 +248,13 @@ namespace GitUI.CommandsDialogs
             }
         }
 
-        private void LoadSshKeyClick(object sender, EventArgs e)
-        {
-            if(GitCommandHelpers.Plink())
-                BrowseForPrivateKey.BrowseAndLoad(this);
-            else
-            {
-                using(var dialog = new FormLoadOpenSshKey(UICommands, _NO_TRANSLATE_From.Text))
-                    dialog.ShowDialog();
-            }
-        }
+	    private void LoadSshKeyClick(object sender, EventArgs e)
+	    {
+		    if(GitCommandHelpers.Plink())
+			    BrowseForPrivateKey.BrowseAndLoad(this);
+		    else
+			    FormLoadOpenSshKey.RunWizard(_NO_TRANSLATE_From.Text, UICommands);
+	    }
 
         private void FromSelectedIndexChanged(object sender, EventArgs e)
         {
@@ -266,16 +263,12 @@ namespace GitUI.CommandsDialogs
 
         private void FromTextUpdate(object sender, EventArgs e)
         {
-            var path = _NO_TRANSLATE_From.Text;
-            path = path.TrimEnd(new[] { '\\', '/' });
+            string path = PathUtil.GetRepositoryName(_NO_TRANSLATE_From.Text);
 
-            const string standardRepositorySuffix = ".git";
-
-            if (path.EndsWith(standardRepositorySuffix))
-                path = path.Substring(0, path.Length - standardRepositorySuffix.Length);
-
-            if (path.Contains("\\") || path.Contains("/"))
-                _NO_TRANSLATE_NewDirectory.Text = path.Substring(path.LastIndexOfAny(new[] { '\\', '/' }) + 1);
+            if (path != "")
+            {
+              _NO_TRANSLATE_NewDirectory.Text = path;
+            }
 
             _NO_TRANSLATE_Branches.DataSource = _defaultBranchItems;
             _NO_TRANSLATE_Branches.Select(0,0);   // Kill full selection on the default branch text

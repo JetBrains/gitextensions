@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\FxCop.targets" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -47,8 +46,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -58,7 +55,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PSTaskDialog">
@@ -71,6 +67,7 @@
     </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net40\System.Reactive.Core.dll</HintPath>
       <Private>True</Private>
@@ -112,6 +109,9 @@
     <Compile Include="CommandsDialogs\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommandsDialogs\AnonymousGitModuleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CommandsDialogs\BrowseDialog\FormOpenDirectory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,9 +131,7 @@
     <Compile Include="CommandsDialogs\BrowseDialog\MenuCommand.cs" />
     <Compile Include="CommandsDialogs\BrowseDialog\MenuCommandsBase.cs" />
     <Compile Include="CommandsDialogs\FormSparseWorkingCopyViewModel.cs" />
-    <Compile Include="CommandsDialogs\FormLoadOpenSshKey.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="CommandsDialogs\FormLoadOpenSshKey.cs" />
     <Compile Include="CommandsDialogs\FormMergeSubmodule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +160,7 @@
     <Compile Include="CommandsDialogs\RepoHosting\ViewPullRequestsForm.Designer.cs">
       <DependentUpon>ViewPullRequestsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommandsDialogs\RsaUtil.cs" />
     <Compile Include="CommandsDialogs\SettingsDialog\Pages\BuildServerIntegrationSettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -411,17 +410,11 @@
     <Compile Include="CommandsDialogs\FormBlame.Designer.cs">
       <DependentUpon>FormBlame.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editor\FileViewerWindows.cs">
+    <Compile Include="Editor\FileViewerInternal.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Editor\FileViewerWindows.Designer.cs">
-      <DependentUpon>FileViewerWindows.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Editor\FileViewerMono.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Editor\FileViewerMono.Designer.cs">
-      <DependentUpon>FileViewerMono.cs</DependentUpon>
+    <Compile Include="Editor\FileViewerInternal.Designer.cs">
+      <DependentUpon>FileViewerInternal.cs</DependentUpon>
     </Compile>
     <Compile Include="Editor\IFileViewer.cs" />
     <Compile Include="CommandsDialogs\BrowseDialog\FormBisect.cs">
@@ -1100,12 +1093,8 @@
       <DependentUpon>FormBlame.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Editor\FileViewerWindows.resx">
-      <DependentUpon>FileViewerWindows.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Editor\FileViewerMono.resx">
-      <DependentUpon>FileViewerMono.cs</DependentUpon>
+    <EmbeddedResource Include="Editor\FileViewerInternal.resx">
+      <DependentUpon>FileViewerInternal.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CommandsDialogs\BrowseDialog\FormBisect.resx">
@@ -1883,6 +1872,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\FxCop.targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
 </Project>
