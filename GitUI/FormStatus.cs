@@ -2,6 +2,9 @@
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+
+using GitUI.UserControls;
+
 using ResourceManager;
 #if !__MonoCS__
 using Microsoft.WindowsAPICodePack.Taskbar;
@@ -14,9 +17,7 @@ namespace GitUI
         public delegate void ProcessStart(FormStatus form);
         public delegate void ProcessAbort(FormStatus form);
 
-        protected readonly SynchronizationContext syncContext;
         private bool UseDialogSettings = true;
-        private ProcessOutputTimer outpuTimer;
 
         public FormStatus(): this(true)
         { }
@@ -24,11 +25,11 @@ namespace GitUI
         public FormStatus(bool useDialogSettings)
             : base(true)
         {
-            outpuTimer = new ProcessOutputTimer(AppendMessageCrossThread);
-            syncContext = SynchronizationContext.Current;
             UseDialogSettings = useDialogSettings;
+			ConsoleOutput = ConsoleOutputControl.CreateInstance();
+	        ConsoleOutput.Dock = DockStyle.Fill;
 
-            InitializeComponent();
+	        InitializeComponent();
             Translate();
             if (UseDialogSettings)
                 KeepDialogOpen.Checked = !GitCommands.AppSettings.CloseProcessDialog;
@@ -43,6 +44,7 @@ namespace GitUI
             AbortCallback = abort;
         }
 
+	    protected readonly ConsoleOutputControl ConsoleOutput;	// Naming: protected stuff must be CLS-compliant here
         private readonly StringBuilder _outputString = new StringBuilder();
         public ProcessStart ProcessCallback;
         public ProcessAbort AbortCallback;
@@ -93,20 +95,13 @@ namespace GitUI
                     }
                     Text = text;
                 };
-            syncContext.Send(method, this);
+            BeginInvoke(method, this);
         }
 
-        public void AppendMessageCrossThread(string text)
-        {
-            if (syncContext == SynchronizationContext.Current)
-                AppendMessage(text);
-            else
-                syncContext.Post(o => AppendMessage(text), this);
-        }
 
         public void AddMessage(string text)
         {
-            AddMessageToTimer(text);
+            ConsoleOutput.AppendMessageFreeThreaded(text);
         }
 
         public void AddMessageLine(string text)
@@ -114,29 +109,9 @@ namespace GitUI
             AddMessage(text + Environment.NewLine);
         }
 
-        private void AddMessageToTimer(string text)
-        {
-            if (outpuTimer != null)
-                outpuTimer.Append(text);
-        }
-
-        private void AppendMessage(string text)
-        {
-            //if not disposed
-            if (outpuTimer != null)
-            {
-                MessageTextBox.Text += text;
-                MessageTextBox.SelectionStart = MessageTextBox.Text.Length;
-                MessageTextBox.ScrollToCaret();
-                MessageTextBox.Visible = true;
-            }
-        }
-
-
         public void Done(bool isSuccess)
         {
-            if (outpuTimer != null)
-                outpuTimer.Stop(true);
+			ConsoleOutput.Done();
             AppendMessageCrossThread("Done");
             ProgressBar.Visible = false;
             Ok.Enabled = true;
@@ -180,11 +155,14 @@ namespace GitUI
             }
         }
 
-        public void Reset()
+	    public void AppendMessageCrossThread(string text)
+	    {
+		    ConsoleOutput.AppendMessageFreeThreaded(text);
+	    }
+
+	    public void Reset()
         {
-            outpuTimer.Clear();
-            MessageTextBox.Text = "";
-            MessageTextBox.Visible = false;
+			ConsoleOutput.Reset();
             lock (_outputString)
             {
                 _outputString.Clear();
@@ -267,7 +245,7 @@ namespace GitUI
                 catch (InvalidOperationException) { }
             }
 #endif
-            outpuTimer.Start();
+            ConsoleOutput.Start();
             Reset();
             ProcessCallback(this);
         }
