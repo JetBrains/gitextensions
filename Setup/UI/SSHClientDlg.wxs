@@ -14,7 +14,7 @@
         <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="{\WixUI_Font_Title}Select SSH Client"/>
         <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="Select the SSH client that will be used by Git Extensions"/>
         <Control Id="OpenSSHInfo" Type="Text" Height="19" Width="202" X="88" Y="100" Text="OpenSSH is the Git default."/>
-        <Control Id="PuTTYInfo" Type="Text" Height="19" Width="202" X="88" Y="158" Text="PuTTY has better integration with Windows."/>
+        <Control Id="PuTTYInfo" Type="Text" Height="19" Width="202" X="88" Y="158" Text="PuTTY is supported as an alternative."/>
         <Control Id="SSHClient" Type="RadioButtonGroup" Height="124" Width="178" X="58" Y="70" Property="SSHCLIENT">
           <RadioButtonGroup Property="SSHCLIENT">
             <RadioButton X="10" Y="10" Height="18" Width="159" Text="{\WixUI_Font_Title}OpenSSH" Value="OpenSSH"/>
