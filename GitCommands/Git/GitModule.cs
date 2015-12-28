@@ -3002,7 +3002,7 @@ namespace GitCommands
         public string ReEncodeCommitMessage(string s, string toEncodingName)
         {
 
-            bool isABug = true;
+            bool isABug = false;
 
             Encoding encoding;
             try
