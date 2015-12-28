@@ -170,7 +170,6 @@ namespace GitUI.CommandsDialogs
                 
                 var cloneCmd = GitCommandHelpers.CloneCmd(_NO_TRANSLATE_From.Text, dirTo,
                             CentralRepository.Checked, cbIntializeAllSubmodules.Checked, branch, depth, isSingleBranch);
-				using(ConsoleEmulatorOutputControl.TemporarilyAllowExperimentalFeature())
                 using (var fromProcess = new FormRemoteProcess(Module, AppSettings.GitCommand, cloneCmd))
                 {
                     fromProcess.SetUrlTryingToConnect(_NO_TRANSLATE_From.Text);
