@@ -2020,6 +2020,7 @@ namespace GitUI
                 return;
 
             AppSettings.BranchFilterEnabled = false;
+            AppSettings.FirstParent = false;
 
             SetShowBranches();
             ForceRefreshRevisions();
@@ -2045,10 +2046,8 @@ namespace GitUI
         private void SetShowBranches()
         {
             _showAllBranchesToolStripMenuItemChecked = !AppSettings.BranchFilterEnabled;
-            _showCurrentBranchOnlyToolStripMenuItemChecked =
-                AppSettings.BranchFilterEnabled && AppSettings.ShowCurrentBranchOnly;
-            _showFilteredBranchesToolStripMenuItemChecked =
-                AppSettings.BranchFilterEnabled && !AppSettings.ShowCurrentBranchOnly;
+            _showCurrentBranchOnlyToolStripMenuItemChecked = AppSettings.BranchFilterEnabled && AppSettings.ShowCurrentBranchOnly;
+            _showFilteredBranchesToolStripMenuItemChecked = AppSettings.BranchFilterEnabled && !AppSettings.ShowCurrentBranchOnly;
 
             BranchFilter = _revisionFilter.GetBranchFilter();
 

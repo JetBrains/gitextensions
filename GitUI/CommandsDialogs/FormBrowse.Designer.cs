@@ -101,6 +101,7 @@ namespace GitUI.CommandsDialogs
             this.resetFileToSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetFileToParentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator32 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonFirstParent = new System.Windows.Forms.ToolStripButton();
             this.copyFilenameToClipboardToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openContainingFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.diffShowInFileTreeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -312,6 +313,7 @@ namespace GitUI.CommandsDialogs
             this.toolStripSeparator5,
             this.toolStripLabel1,
             this.toolStripBranches,
+            this.toolStripButtonFirstParent,
             this.toolStripDropDownButton2,
             this.toolStripSeparator19,
             this.toolStripLabel2,
@@ -559,6 +561,17 @@ namespace GitUI.CommandsDialogs
             this.toolStripBranches.DropDownWidth = 300;
             this.toolStripBranches.Name = "toolStripBranches";
             this.toolStripBranches.Size = new System.Drawing.Size(186, 25);
+            // 
+            // toolStripButtonFirstParent
+            // 
+            this.toolStripButtonFirstParent.CheckOnClick = true;
+            this.toolStripButtonFirstParent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonFirstParent.Image = global::GitUI.Properties.Resources.Icon_78;
+            this.toolStripButtonFirstParent.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonFirstParent.Name = "toolStripButtonFirstParent";
+            this.toolStripButtonFirstParent.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonFirstParent.Text = "First Parent";
+            this.toolStripButtonFirstParent.Click += new System.EventHandler(this.toolStripButtonFirstParent_Click);
             // 
             // toolStripDropDownButton2
             // 
@@ -2243,5 +2256,6 @@ namespace GitUI.CommandsDialogs
         private ToolStripSeparator toolStripSeparator7;
         private ToolStripMenuItem cherryPickSelectedDiffFileToolStripMenuItem;
         private ToolStripMenuItem menuitemSparse;
+        private ToolStripButton toolStripButtonFirstParent;
     }
 }

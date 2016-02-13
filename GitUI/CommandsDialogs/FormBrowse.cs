@@ -188,6 +188,8 @@ namespace GitUI.CommandsDialogs
             _filterBranchHelper = new FilterBranchHelper(toolStripBranches, toolStripDropDownButton2, RevisionGrid);
             Translate();
 
+            toolStripButtonFirstParent.Checked = AppSettings.FirstParent;
+
             if (Settings.ShowGitStatusInBrowseToolbar)
             {
                 _toolStripGitStatus = new ToolStripGitStatus
@@ -3431,6 +3433,12 @@ namespace GitUI.CommandsDialogs
         private void menuitemSparseWorkingCopy_Click(object sender, EventArgs e)
         {
             UICommands.StartSparseWorkingCopyDialog(this);
+		}
+
+        private void toolStripButtonFirstParent_Click(object sender, EventArgs e)
+        {
+          AppSettings.FirstParent = toolStripButtonFirstParent.Checked;
+          RevisionGrid.ForceRefreshRevisions();
         }
     }
 }
