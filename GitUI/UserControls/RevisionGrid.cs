@@ -996,6 +996,7 @@ namespace GitUI
                     revGraphIMF = filterBarIMF;
 
                 _revisionGraphCommand = new RevisionGraph(Module) {
+                    FirstParent = UICommandsSource is FormBrowse && AppSettings.FirstParent,
                     BranchFilter = BranchFilter,
                     RefsOptions = _refsOptions,
                     RevisionFilter = _revisionFilter.GetRevisionFilter() + QuickRevisionFilter + FixedRevisionFilter,
@@ -2048,6 +2049,15 @@ namespace GitUI
             _showAllBranchesToolStripMenuItemChecked = !AppSettings.BranchFilterEnabled;
             _showCurrentBranchOnlyToolStripMenuItemChecked = AppSettings.BranchFilterEnabled && AppSettings.ShowCurrentBranchOnly;
             _showFilteredBranchesToolStripMenuItemChecked = AppSettings.BranchFilterEnabled && !AppSettings.ShowCurrentBranchOnly;
+
+            try
+            {
+                ((FormBrowse)UICommandsSource).toolStripButtonFirstParent.Enabled = AppSettings.BranchFilterEnabled;
+                ((FormBrowse)UICommandsSource).toolStripButtonFirstParent.Checked &= AppSettings.BranchFilterEnabled;
+            }
+            catch
+            {
+            }
 
             BranchFilter = _revisionFilter.GetBranchFilter();
 
