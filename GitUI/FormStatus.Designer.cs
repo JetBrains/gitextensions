@@ -1,4 +1,7 @@
 ﻿using System.Windows.Forms;
+
+using GitUI.UserControls;
+
 namespace GitUI
 {
     partial class FormStatus
@@ -36,6 +39,7 @@ namespace GitUI
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.picBoxSuccessFail = new System.Windows.Forms.PictureBox();
+            this.loader = new JetLoaderWinFormsControl();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -135,7 +139,12 @@ namespace GitUI
             this.picBoxSuccessFail.Name = "picBoxSuccessFail";
             this.picBoxSuccessFail.Size = new System.Drawing.Size(47, 50);
             this.picBoxSuccessFail.TabIndex = 1;
+            this.picBoxSuccessFail.Visible = false;
             this.picBoxSuccessFail.TabStop = false;
+            this.loader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.loader.Name = "loader";
+            this.loader.TabStop = false;
+            this.loader.Visible = true;
             // 
             // tableLayoutPanel3
             // 
@@ -144,6 +153,7 @@ namespace GitUI
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.Controls.Add(this.picBoxSuccessFail, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.loader, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.ConsoleOutput, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
@@ -188,6 +198,7 @@ namespace GitUI
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private PictureBox picBoxSuccessFail;
+        private JetLoaderWinFormsControl loader;
         private TableLayoutPanel tableLayoutPanel3;
     }
 }

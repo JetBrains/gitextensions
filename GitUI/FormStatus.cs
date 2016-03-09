@@ -155,6 +155,8 @@ namespace GitUI
                 picBoxSuccessFail.Image = GitUI.Properties.Resources.success;
             else
                 picBoxSuccessFail.Image = GitUI.Properties.Resources.error;
+            picBoxSuccessFail.Visible = true;
+            loader.Visible = false;
 
             errorOccurred = !isSuccess;
 
