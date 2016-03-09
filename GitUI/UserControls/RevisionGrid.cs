@@ -98,8 +98,6 @@ namespace GitUI
             _parentChildNavigationHistory = new ParentChildNavigationHistory(SetSelectedRevision);
             _revisionHighlighting = new AuthorEmailBasedRevisionHighlighting();
 
-            this.Loading.Image = global::GitUI.Properties.Resources.loadingpanel;
-
             Translate();
 
             _revisionGridMenuCommands = new RevisionGridMenuCommands(this);

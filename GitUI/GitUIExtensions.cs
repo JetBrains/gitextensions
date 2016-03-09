@@ -7,6 +7,8 @@ using System.Threading;
 using System.Windows.Forms;
 using GitCommands;
 using GitUI.Editor;
+using GitUI.UserControls;
+
 using ICSharpCode.TextEditor.Util;
 using ResourceManager;
 
@@ -264,13 +266,11 @@ namespace GitUI
             return null;
         }
 
-        public class MaskPanel : PictureBox
+        public class MaskPanel : JetLoaderWinFormsControl
         {
             public MaskPanel()
             {
-                Image = Properties.Resources.loadingpanel;
-                SizeMode = PictureBoxSizeMode.CenterImage;
-                BackColor = SystemColors.AppWorkspace;
+                BackColor = SystemColors.Control;
             }
         }
 
