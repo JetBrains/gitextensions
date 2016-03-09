@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 using GitUI.UserControls;
 
@@ -145,6 +146,7 @@ namespace GitUI
             this.loader.Name = "loader";
             this.loader.TabStop = false;
             this.loader.Visible = true;
+            this.loader.BackColor = SystemColors.Control;
             // 
             // tableLayoutPanel3
             // 

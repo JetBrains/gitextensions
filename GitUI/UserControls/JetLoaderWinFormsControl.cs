@@ -16,9 +16,14 @@ namespace GitUI.UserControls
 		{
 			SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.SupportsTransparentBackColor | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
 			Size = _renderer.Size.ToSize();
+			_renderer.BackColor = BackColor;
 
 			_timer = new Timer() {Interval = (int)TimeSpan.FromSeconds(1.0 / 30).TotalMilliseconds};
-			_timer.Tick += delegate { if(_renderer.Loop()) Invalidate(); };
+			_timer.Tick += delegate
+			{
+				if(_renderer.Loop())
+					Invalidate();
+			};
 			_timer.Enabled = Visible;
 			VisibleChanged += delegate { _timer.Enabled = Visible; };
 		}
@@ -28,6 +33,12 @@ namespace GitUI.UserControls
 			base.Dispose(disposing);
 			if(disposing)
 				_timer.Dispose();
+		}
+
+		protected override void OnBackColorChanged(EventArgs e)
+		{
+			base.OnBackColorChanged(e);
+			_renderer.BackColor = BackColor;
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -96,6 +107,8 @@ namespace GitUI.UserControls
 					Step();
 			}
 
+			public Color BackColor = Color.White;
+
 			public SizeF Size
 			{
 				get
@@ -106,10 +119,11 @@ namespace GitUI.UserControls
 
 			public void Draw(Graphics dc)
 			{
-				dc.FillRectangle(Brushes.White, new RectangleF(new PointF(), _size));
+				using(var brushBack = new SolidBrush(BackColor))
+					dc.FillRectangle(brushBack, new RectangleF(new PointF(), _size));
 				for(int a = Parameters.LivingParticles, nParticle = (_tick + 1) % Parameters.LivingParticles; a-- > 0; nParticle = (nParticle + 1) % Parameters.LivingParticles)
 				{
-					using(var brush = new SolidBrush(Mix(_brushes[_particles[nParticle].BrushIndex], Color.White, 1.0f - a / (float)Parameters.LivingParticles)))
+					using(var brush = new SolidBrush(Mix(_brushes[_particles[nParticle].BrushIndex], BackColor, 1.0f - a / (float)Parameters.LivingParticles)))
 					{
 						var radsize = new SizeF(_particles[nParticle].Radius, _particles[nParticle].Radius);
 						dc.FillEllipse(brush, new RectangleF(_particles[nParticle].Center - radsize, radsize + radsize));
