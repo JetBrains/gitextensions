@@ -1,5 +1,6 @@
 using System.Windows.Forms;
 using GitUI.Editor;
+using GitUI.UserControls;
 
 namespace GitUI.CommandsDialogs
 {
@@ -43,7 +44,7 @@ namespace GitUI.CommandsDialogs
             this.Clear = new System.Windows.Forms.Button();
             this.StashMessage = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.Loading = new System.Windows.Forms.PictureBox();
+            this.Loading = new JetLoaderWinFormsControl();
             this.Stashed = new GitUI.FileStatusList();
             this.toolStrip1 = new GitUI.ToolStripEx();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -63,7 +64,6 @@ namespace GitUI.CommandsDialogs
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Loading)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -232,14 +232,13 @@ namespace GitUI.CommandsDialogs
             // 
             // Loading
             // 
-            this.Loading.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.Loading.BackColor = System.Drawing.SystemColors.Control;
             this.Loading.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Loading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Loading.Location = new System.Drawing.Point(0, 0);
             this.Loading.Margin = new System.Windows.Forms.Padding(4);
             this.Loading.Name = "Loading";
             this.Loading.Size = new System.Drawing.Size(272, 352);
-            this.Loading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.Loading.TabIndex = 12;
             this.Loading.TabStop = false;
             this.Loading.Visible = false;
@@ -358,7 +357,6 @@ namespace GitUI.CommandsDialogs
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Loading)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -379,7 +377,7 @@ namespace GitUI.CommandsDialogs
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripComboBox Stashes;
-        private PictureBox Loading;
+        private JetLoaderWinFormsControl Loading;
         private CheckBox StashKeepIndex;
         private ToolStripButton toolStripButton_customMessage;
         private ToolStripSeparator toolStripSeparator1;

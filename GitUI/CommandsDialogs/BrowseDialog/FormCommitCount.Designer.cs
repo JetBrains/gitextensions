@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+using GitUI.UserControls;
 
 namespace GitUI.CommandsDialogs.BrowseDialog
 {
@@ -31,11 +34,10 @@ namespace GitUI.CommandsDialogs.BrowseDialog
         private void InitializeComponent()
         {
             this.CommitCount = new System.Windows.Forms.RichTextBox();
-            this.Loading = new System.Windows.Forms.PictureBox();
+            this.Loading = new JetLoaderWinFormsControl();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbIncludeSubmodules = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.Loading)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -56,9 +58,9 @@ namespace GitUI.CommandsDialogs.BrowseDialog
             this.Loading.Location = new System.Drawing.Point(0, 0);
             this.Loading.Name = "Loading";
             this.Loading.Size = new System.Drawing.Size(367, 287);
-            this.Loading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.Loading.TabIndex = 1;
             this.Loading.TabStop = false;
+			this.Loading.BackColor = SystemColors.Control;
             // 
             // panel1
             // 
@@ -104,7 +106,6 @@ namespace GitUI.CommandsDialogs.BrowseDialog
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Commit count";
             this.Load += new System.EventHandler(this.FormCommitCountLoad);
-            ((System.ComponentModel.ISupportInitialize)(this.Loading)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -115,7 +116,7 @@ namespace GitUI.CommandsDialogs.BrowseDialog
         #endregion
 
         private System.Windows.Forms.RichTextBox CommitCount;
-        private System.Windows.Forms.PictureBox Loading;
+        private JetLoaderWinFormsControl Loading;
         private Panel panel1;
         private CheckBox cbIncludeSubmodules;
         private Panel panel2;

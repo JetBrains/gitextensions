@@ -1,5 +1,6 @@
 
 using GitUI.RevisionGridClasses;
+using GitUI.UserControls;
 
 namespace GitUI
 {
@@ -128,7 +129,7 @@ namespace GitUI
             this.Commit = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.Error = new System.Windows.Forms.PictureBox();
-            this.Loading = new System.Windows.Forms.PictureBox();
+            this.Loading = new JetLoaderWinFormsControl();
             this.quickSearchTimer = new System.Windows.Forms.Timer(this.components);
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.Revisions)).BeginInit();
@@ -136,7 +137,6 @@ namespace GitUI
             this.NoCommits.SuspendLayout();
             this.NoGit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Error)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Loading)).BeginInit();
             this.SuspendLayout();
             //
             // Revisions
@@ -675,12 +675,11 @@ namespace GitUI
             //
             // Loading
             //
-            this.Loading.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.Loading.BackColor = System.Drawing.SystemColors.Control;
             this.Loading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Loading.Location = new System.Drawing.Point(0, 0);
             this.Loading.Name = "Loading";
             this.Loading.Size = new System.Drawing.Size(682, 235);
-            this.Loading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.Loading.TabIndex = 1;
             this.Loading.TabStop = false;
             this.Loading.Visible = false;
@@ -710,7 +709,6 @@ namespace GitUI
             this.NoGit.ResumeLayout(false);
             this.NoGit.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Error)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Loading)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -718,7 +716,7 @@ namespace GitUI
         #endregion
 
         private DvcsGraph Revisions;
-        private System.Windows.Forms.PictureBox Loading;
+        private JetLoaderWinFormsControl Loading;
         private System.Windows.Forms.Timer SelectionTimer;
         public System.Windows.Forms.PictureBox Error;
         private System.Windows.Forms.ContextMenuStrip mainContextMenu;

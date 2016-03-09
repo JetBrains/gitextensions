@@ -164,7 +164,6 @@ namespace GitUI.CommandsDialogs
             if (Module != null)
                 Message.AddAutoCompleteProvider(new CommitAutoCompleteProvider(Module));
 
-            Loading.Image = Properties.Resources.loadingpanel;
 
             Translate();
 
@@ -447,7 +446,7 @@ namespace GitUI.CommandsDialogs
                         Close();
 #if !__MonoCS__ // animated GIFs are not supported in Mono/Linux
                     //trying to properly dispose loading image issue #1037
-                    Loading.Image.Dispose();
+//                    Loading.Image.Dispose();
 #endif
                 }, false
             );
