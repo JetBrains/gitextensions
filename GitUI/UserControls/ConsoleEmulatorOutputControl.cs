@@ -57,11 +57,6 @@ namespace GitUI.UserControls
 				session.WriteOutputText(text);
 		}
 
-		public override void Done()
-		{
-			// TODO: remove this method
-		}
-
 		public override void KillProcess()
 		{
 			ConEmuSession session = _terminal.RunningSession;
@@ -73,12 +68,7 @@ namespace GitUI.UserControls
 		{
 			ConEmuSession session = _terminal.RunningSession;
 			if(session != null)
-				session.KillConsoleEmulator();
-		}
-
-		public override void Start()
-		{
-			// TODO: remove this method
+				session.CloseConsoleEmulator();
 		}
 
 		public override void StartProcess(string command, string arguments, string workdir)
@@ -88,16 +78,16 @@ namespace GitUI.UserControls
 			cmdl.AppendSwitch(arguments /* expecting to be already escaped */);
 
 			var startinfo = new ConEmuStartInfo();
-			startinfo.ConsoleCommandLine = cmdl.ToString();
+			startinfo.ConsoleProcessCommandLine = cmdl.ToString();
 			startinfo.StartupDirectory = workdir;
-			startinfo.WhenPayloadProcessExits = WhenPayloadProcessExits.KeepTerminalAndShowMessage;
+			startinfo.WhenConsoleProcessExits = WhenConsoleProcessExits.KeepConsoleEmulatorAndShowMessage;
 			startinfo.AnsiStreamChunkReceivedEventSink = (sender, args) => FireDataReceived(new TextEventArgs(args.GetText(GitModule.SystemEncoding)));
-			startinfo.PayloadExitedEventSink = (sender, args) =>
+			startinfo.ConsoleProcessExitedEventSink = (sender, args) =>
 			{
 				_nLastExitCode = args.ExitCode;
 				FireProcessExited();
 			};
-			startinfo.ConsoleEmulatorExitedEventSink = delegate { FireTerminated(); };
+			startinfo.ConsoleEmulatorClosedEventSink = delegate { FireTerminated(); };
 			startinfo.IsEchoingConsoleCommandLine = true;
 
 			_terminal.Start(startinfo);
