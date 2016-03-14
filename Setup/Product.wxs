@@ -691,7 +691,7 @@
                     <!-- ComponentRef Id="TfsInterop.Vs2013.dll" /-->
                 </Feature>
             </Feature>
-            <Feature Id="GitExtensions.desktop" Title="Desktop shortcut" Level="1">
+            <Feature Id="GitExtensions.desktop" Title="Desktop shortcut" Level="2">
                 <ComponentRef Id="GitExtensions.desktop" />
             </Feature>
             <Feature Id="Icons" Title="Extra application icons" Level="2">
