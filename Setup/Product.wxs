@@ -194,6 +194,12 @@
                     <RegistryValue Value="&quot;[INSTALLDIR]GitExtensions.exe&quot; %1" Type="string" />
                 </RegistryKey>
             </Component>
+            <Component Id="CAppPathsEntry" Guid="*">
+                <!-- Adds the App Paths entry, which allows to run the app by its short name without adding its home directory to PATH with all the stuff in that dir. -->
+                <RegistryKey Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\GitExtensions.exe">
+                    <RegistryValue Value="[INSTALLDIR]GitExtensions.exe" Type="string" />
+                </RegistryKey>
+            </Component>
         </DirectoryRef>
         <DirectoryRef Id="GitCredentialWinStoreDir">
             <Component Id="GitCredentialWinStore.exe" Guid="*">
@@ -810,8 +816,11 @@
                 <ComponentRef Id="GitExtensionsShellEx32.dll" />
                 <ComponentRef Id="GitExtensionsShellEx64.dll" />
             </Feature>
-            <Feature Id="AddToPath" Title="Add installation directory to PATH" Level="1">
+            <Feature Id="AddToPath" Title="Add installation directory to PATH" Level="2">
                 <ComponentRef Id="Path" />
+            </Feature>
+            <Feature Id="AddToAppPaths" Title="Add GitExtensions.exe to App Paths" Level="1">
+                <ComponentRef Id="CAppPathsEntry" />
             </Feature>
             <Feature Id="VSExtension" Title="Visual Studio extension" Level="1">
                 <?foreach VsVersion in $(var.VsVersions)?>
