@@ -8,6 +8,8 @@ using GitUI;
 using GitUI.CommandsDialogs.SettingsDialog;
 using GitUI.CommandsDialogs.SettingsDialog.Pages;
 
+using ResourceManager;
+
 namespace GitExtensions
 {
     internal static class Program
@@ -74,9 +76,12 @@ namespace GitExtensions
 
             if (string.IsNullOrEmpty(AppSettings.Translation))
             {
-                using (var formChoose = new FormChooseTranslation())
+                if(Translator.GetAllTranslations().Length == 0)
+                    AppSettings.Translation = "English";  // Do not show the chooser if there're no options
+                else
                 {
-                    formChoose.ShowDialog();
+                    using(var formChoose = new FormChooseTranslation())
+                        formChoose.ShowDialog();
                 }
             }
 
