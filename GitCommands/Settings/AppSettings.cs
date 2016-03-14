@@ -789,7 +789,7 @@ namespace GitCommands
 
         public static string GravatarFallbackService
         {
-            get { return GetString("gravatarfallbackservice", "Identicon"); }
+            get { return GetString("gravatarfallbackservice", "MonsterId"); }
             set { SetString("gravatarfallbackservice", value); }
         }
 
