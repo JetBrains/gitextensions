@@ -813,9 +813,9 @@
             <Feature Id="AddToPath" Title="Add installation directory to PATH" Level="2"> <!-- This is a very strange option, what's the use of a gui tool on the path, it's not even git.exe itself. -->
                 <ComponentRef Id="Path" />
             </Feature>
-            <Feature Id="VSExtension" Title="Visual Studio extension" Level="1">
+            <Feature Id="VSExtension" Title="Visual Studio extension" Level="2"> <!-- This is an add-in rather than an extension, and it causes problems with large solutions, so it's off in jet-fork. -->
                 <?foreach VsVersion in $(var.VsVersions)?>
-                <Feature Id="VS$(var.VsVersion)FeatureId" Title="Visual Studio $(var.VsVersion) integration" Level="1">
+                <Feature Id="VS$(var.VsVersion)FeatureId" Title="Visual Studio $(var.VsVersion) integration" Level="2">
                     <Condition Level="2">NOT VS$(var.VsVersion)INSTFOLDER</Condition>
                     <ComponentRef Id="VS$(var.VsVersion)_GitPlugin.AddIn" />
                     <ComponentRef Id="VS$(var.VsVersion)_GitPlugin.dll" />
