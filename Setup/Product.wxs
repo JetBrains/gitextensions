@@ -810,7 +810,7 @@
                 <ComponentRef Id="GitExtensionsShellEx32.dll" />
                 <ComponentRef Id="GitExtensionsShellEx64.dll" />
             </Feature>
-            <Feature Id="AddToPath" Title="Add installation directory to PATH" Level="1">
+            <Feature Id="AddToPath" Title="Add installation directory to PATH" Level="2"> <!-- This is a very strange option, what's the use of a gui tool on the path, it's not even git.exe itself. -->
                 <ComponentRef Id="Path" />
             </Feature>
             <Feature Id="VSExtension" Title="Visual Studio extension" Level="1">
