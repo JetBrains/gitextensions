@@ -1,32 +1,22 @@
-# Git Extensions
+# Git Extensions — JetBrains Fork
 
-WARNING: Repository rewritten on 2014-08-24 to reduce its size. Please clone it again. |
------------
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gitextensions/gitextensions?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Issue Stats](http://www.issuestats.com/github/gitextensions/gitextensions/badge/pr?style=flat)](http://www.issuestats.com/github/gitextensions/gitextensions) [![Issue Stats](http://www.issuestats.com/github/gitextensions/gitextensions/badge/issue?style=flat)](http://www.issuestats.com/github/gitextensions/gitextensions) [![SourceForge](https://img.shields.io/sourceforge/dm/gitextensions.svg)](https://sourceforge.net/projects/gitextensions/)
-
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gitextensions/gitextensions?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
 ## Introduction
 
-GitExtensions is a standalone Git repository tool, a Visual Studio 2008 / 2010 / 2012 / 2013 plugin and a shell extension.
+GitExtensions is a standalone Git repository tool, a Visual Studio 2008 / 2010 / 2012 / 2013 add-in and a shell extension.
 
-## Current status
-
-Build status: master [![Status](http://teamcity.codebetter.com/app/rest/builds/buildType:\(id:GitExtensions_Master\)/statusIcon)](http://teamcity.codebetter.com/viewType.html?buildTypeId=GitExtensions_Master)
-
-Mono Build status: master
-[![Build Status](https://travis-ci.org/gitextensions/gitextensions.svg?branch=master)](https://travis-ci.org/gitextensions/gitextensions)
-
-Translation: [![Transifex](https://ds0k0en9abmn1.cloudfront.net/static/charts/images/tx-logo-micro.646b0065fce6.png)](https://www.transifex.com/projects/p/git-extensions/)
-
-[![Transifex Stats](https://www.transifex.com/projects/p/git-extensions/resource/ui-master/chart/image_png)](https://www.transifex.com/projects/p/git-extensions/)
-
-The [build](http://teamcity.codebetter.com/project.html?projectId=GitExtensions&branch_GitExtensions=__all_branches__) is generously hosted and run on the [CodeBetter TeamCity](http://codebetter.com/codebetter-ci/) infrastructure.
-
-Special thanks to JetBRAINS for [Resharper](https://www.jetbrains.com/resharper/) license.
+JetBrains Fork adds a few features which have not been taken into the main project yet:
+* OpenSSH keys wizard — user interface for generating SSH keys and setting them up for the first use
+* OpenSSH interactive prompt fix — as the terminal is fully functional for git/ssh commands, prompts are operational
+* Shallow Clone — don't download full history of a large repo
+* Sparse Checkout — don't write out all of the repo files into the working copy
+* Console Emulator — git commands are run in a real embedded terminal, which allows them to be fully operational; the main window also has a terminal
+* Minor fixes
 
 ## Links
 
-* Download page: [https://github.com/gitextensions/gitextensions/releases/latest](https://github.com/gitextensions/gitextensions/releases/latest)
+* Download page: [https://github.com/JetBrains/gitextensions/releases/](https://github.com/JetBrains/gitextensions/releases/)
 * Online manual: [https://git-extensions-documentation.readthedocs.org/en/latest/](https://git-extensions-documentation.readthedocs.org/en/latest/)
 * Issue tracker: [http://github.com/gitextensions/gitextensions/issues](http://github.com/gitextensions/gitextensions/issues)
 * Mailing list: [http://groups.google.com/group/gitextensions](http://groups.google.com/group/gitextensions)
