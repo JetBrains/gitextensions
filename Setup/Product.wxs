@@ -708,10 +708,10 @@
             <Feature Id="GitExtensions.desktop" Title="Desktop shortcut" Level="2">
                 <ComponentRef Id="GitExtensions.desktop" />
             </Feature>
-            <Feature Id="Protocol.git" Title="Assign with git://-links" Level="1">
+            <Feature Id="Protocol.git" Title="Associate with git://-links" Level="1">
                 <ComponentRef Id="Protocol.git" />
             </Feature>
-            <Feature Id="Protocol.github_windows" Title="Assign with github-windows://-links" Level="1">
+            <Feature Id="Protocol.github_windows" Title="Associate with github-windows://-links" Level="1">
                 <ComponentRef Id="Protocol.github_windows" />
             </Feature>
             <Feature Id="Icons" Title="Extra application icons" Level="2">
