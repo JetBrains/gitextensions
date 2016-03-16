@@ -12,6 +12,7 @@ JetBrains Fork adds a few features which have not been taken into the main proje
 * Shallow Clone — don't download full history of a large repo
 * Sparse Checkout — don't write out all of the repo files into the working copy
 * Console Emulator — git commands are run in a real embedded terminal, which allows them to be fully operational; the main window also has a terminal
+* Performance fixes for repos with large history
 * Minor fixes
 
 ## Links
