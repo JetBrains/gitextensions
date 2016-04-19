@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using System.Xml;
 
 using ConEmu.WinForms;
 
@@ -89,6 +90,23 @@ namespace GitUI.UserControls
 			};
 			startinfo.ConsoleEmulatorClosedEventSink = delegate { FireTerminated(); };
 			startinfo.IsEchoingConsoleCommandLine = true;
+
+			XmlDocument xmlConfig = startinfo.BaseConfiguration;
+			XmlNode xmlVanilla = xmlConfig.SelectSingleNode("//key[@name='.Vanilla']");
+			if(xmlVanilla != null)
+			{
+				for(int a = 0; a < 0x10; a++)
+				{
+					int valyes = (a & 8) != 0 ? 0x00 : 0x80;
+					int valno = 0xFF;
+
+					XmlElement xmlColor;
+					xmlVanilla.AppendChild(xmlColor = xmlConfig.CreateElement("value"));
+					xmlColor.SetAttribute("name", string.Format("ColorTable{0:00}", a));
+					xmlColor.SetAttribute("type", "dword");
+					xmlColor.SetAttribute("data", string.Format("FF{0:X2}{1:X2}{2:X2}", (a & 1) != 0 ? valyes : valno, (a & 2) != 0 ? valyes : valno, (a & 4) != 0 ? valyes : valno));
+				}
+			}
 
 			_terminal.Start(startinfo);
 		}
