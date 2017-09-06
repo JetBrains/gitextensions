@@ -1,17 +1,17 @@
-# Git Extensions — JetBrains Fork
+# Git Extensions â€” JetBrains Fork
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gitextensions/gitextensions?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+[![official JetBrains project](http://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gitextensions/gitextensions?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
 ## Introduction
 
 GitExtensions is a standalone Git repository tool, a Visual Studio 2008 / 2010 / 2012 / 2013 add-in and a shell extension.
 
 JetBrains Fork adds a few features which have not been taken into the main project yet:
-* OpenSSH keys wizard — user interface for generating SSH keys and setting them up for the first use
-* OpenSSH interactive prompt fix — as the terminal is fully functional for git/ssh commands, prompts are operational
-* Shallow Clone — don't download full history of a large repo
-* Sparse Checkout — don't write out all of the repo files into the working copy
-* Console Emulator — git commands are run in a real embedded terminal, which allows them to be fully operational; the main window also has a terminal
+* OpenSSH keys wizard â€” user interface for generating SSH keys and setting them up for the first use
+* OpenSSH interactive prompt fix â€” as the terminal is fully functional for git/ssh commands, prompts are operational
+* Shallow Clone â€” don't download full history of a large repo
+* Sparse Checkout â€” don't write out all of the repo files into the working copy
+* Console Emulator â€” git commands are run in a real embedded terminal, which allows them to be fully operational; the main window also has a terminal
 * Performance fixes for repos with large history
 * Minor fixes
 
